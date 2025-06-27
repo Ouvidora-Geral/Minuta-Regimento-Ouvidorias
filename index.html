@@ -530,44 +530,103 @@
             transform: none;
         }
         
-        .results-container {
+        /* Novo estilo para resultados do quiz */
+        .result-container {
             text-align: center;
             padding: 40px;
-            display: none;
             background-color: white;
             border-radius: 15px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-        }
-        
-        .results-container.active {
-            display: block;
+            display: none;
             animation: fadeIn 0.5s ease;
         }
         
-        .score {
+        .result-container.active {
+            display: block;
+        }
+        
+        .result-title {
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+        
+        .result-visual {
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .result-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: conic-gradient(var(--correct-color) 0%, #e9ecef 0%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .result-inner {
+            width: 160px;
+            height: 160px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .result-percent {
             font-size: 2.5rem;
             font-weight: bold;
             color: var(--primary-color);
-            margin: 25px 0;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
         }
         
-        .progress-container {
-            width: 100%;
-            height: 35px;
-            background-color: #e9ecef;
-            border-radius: 18px;
-            margin: 30px 0;
-            overflow: hidden;
-            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+        .result-label {
+            font-size: 1rem;
+            color: var(--dark-text);
+            margin-top: 5px;
         }
         
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-            border-radius: 18px;
-            transition: width 0.8s ease;
-            box-shadow: inset 0 -2px 5px rgba(0, 0, 0, 0.1);
+        .result-feedback {
+            font-size: 1.2rem;
+            margin: 20px 0;
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+        
+        .result-stars {
+            font-size: 2rem;
+            color: var(--highlight-color);
+            margin: 20px 0;
+        }
+        
+        .restart-btn {
+            padding: 12px 25px;
+            background: linear-gradient(145deg, var(--primary-color), #0069d9);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            font-size: 1.05rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1),
+                        inset 0 -3px 0 rgba(0, 0, 0, 0.2);
+            transform: translateY(0);
+            margin-top: 20px;
+        }
+        
+        .restart-btn:hover {
+            background: linear-gradient(145deg, #0069d9, #0056b3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15),
+                        inset 0 -4px 0 rgba(0, 0, 0, 0.2);
         }
         
         /* Training Section */
@@ -624,6 +683,10 @@
         
         .training-btn.green {
             background: linear-gradient(145deg, var(--correct-color), #218838);
+        }
+        
+        .training-btn.blue {
+            background: linear-gradient(145deg, var(--primary-color), #003366);
         }
         
         /* Footer Styles */
@@ -732,6 +795,20 @@
             .question {
                 font-size: 1.2rem;
             }
+            
+            .result-circle {
+                width: 160px;
+                height: 160px;
+            }
+            
+            .result-inner {
+                width: 130px;
+                height: 130px;
+            }
+            
+            .result-percent {
+                font-size: 2rem;
+            }
         }
         
         @media (max-width: 480px) {
@@ -746,6 +823,24 @@
             
             .footer-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .result-circle {
+                width: 140px;
+                height: 140px;
+            }
+            
+            .result-inner {
+                width: 110px;
+                height: 110px;
+            }
+            
+            .result-percent {
+                font-size: 1.8rem;
+            }
+            
+            .result-label {
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -776,7 +871,6 @@
         <div class="tab-container">
             <button class="tab active" data-tab="chapters">Capítulos</button>
             <button class="tab" data-tab="annexes">Anexos</button>
-            <button class="tab" data-tab="quiz">Quiz Educativo</button>
             <button class="tab highlight" data-tab="training">Iniciar Capacitação</button>
         </div>
         
@@ -1117,35 +1211,6 @@
             </div>
         </div>
         
-        <!-- Quiz Section -->
-        <div class="content-section" id="quiz">
-            <h2>Quiz Educativo</h2>
-            
-            <div class="quiz-container">
-                <div class="level-selector">
-                    <button class="level-btn active" data-level="1">Nível 1</button>
-                    <button class="level-btn" data-level="2">Nível 2</button>
-                    <button class="level-btn" data-level="3">Nível 3</button>
-                    <button class="level-btn" data-level="4">Nível 4</button>
-                    <button class="level-btn" data-level="5">Nível 5</button>
-                </div>
-                
-                <div id="question-container">
-                    <!-- Questions will be inserted here by JavaScript -->
-                </div>
-                
-                <div class="results-container" id="results-container">
-                    <h3>Resultado do Quiz</h3>
-                    <p>Sua pontuação:</p>
-                    <div class="score" id="score">0%</div>
-                    <div class="progress-container">
-                        <div class="progress-bar" id="progress-bar"></div>
-                    </div>
-                    <button class="quiz-btn" id="restart-btn">Refazer Quiz</button>
-                </div>
-            </div>
-        </div>
-        
         <!-- Training Section -->
         <div class="content-section" id="training">
             <h2>Iniciar Capacitação</h2>
@@ -1160,6 +1225,44 @@
                 <a href="https://ouvidora-geral.github.io/Fluxograma_Regimento" class="training-btn green" target="_blank">
                     <i class="fas fa-project-diagram"></i> Fluxograma
                 </a>
+                <a href="#" class="training-btn blue" id="quiz-btn">
+                    <i class="fas fa-question-circle"></i> Teste seu Conhecimento
+                </a>
+            </div>
+            
+            <div class="quiz-container" id="quiz-section" style="display: none; margin-top: 40px;">
+                <div class="level-selector">
+                    <button class="level-btn active" data-level="1">Nível 1</button>
+                    <button class="level-btn" data-level="2">Nível 2</button>
+                    <button class="level-btn" data-level="3">Nível 3</button>
+                    <button class="level-btn" data-level="4">Nível 4</button>
+                    <button class="level-btn" data-level="5">Nível 5</button>
+                </div>
+                
+                <div id="question-container">
+                    <!-- Questions will be inserted here by JavaScript -->
+                </div>
+                
+                <div class="result-container" id="quiz-result">
+                    <h3 class="result-title">Seu Desempenho</h3>
+                    
+                    <div class="result-visual">
+                        <div class="result-circle" id="result-circle">
+                            <div class="result-inner">
+                                <div class="result-percent" id="result-percent">0%</div>
+                                <div class="result-label">de acerto</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-feedback" id="result-feedback"></div>
+                    
+                    <div class="result-stars" id="result-stars"></div>
+                    
+                    <div id="feedback"></div>
+                    
+                    <button class="restart-btn" id="restart-btn">Fazer Novamente</button>
+                </div>
             </div>
         </div>
     </main>
@@ -1169,7 +1272,7 @@
             <div class="footer-grid">
                 <div class="footer-section">
                     <h3>Sobre</h3>
-                    <p>Minuta do Regimento Nacional das Ouvidorias do Sistema Cofen/Coren - Versão 1.3.0 (2025)</p>
+                    <p>Minuta do Regimento Nacional das Ouvidorias do Sistema Cofen/Coren - Versão 1.4.0 (2025)</p>
                 </div>
                 
                 <div class="footer-section">
@@ -1201,11 +1304,6 @@
                 tab.classList.add('active');
                 const tabId = tab.getAttribute('data-tab');
                 document.getElementById(tabId).classList.add('active');
-                
-                // If quiz tab is clicked, reset quiz
-                if (tabId === 'quiz') {
-                    resetQuiz();
-                }
             });
         });
         
@@ -1235,135 +1333,160 @@
                 {
                     question: "Qual é o prazo máximo para a Ouvidoria apresentar resposta conclusiva às manifestações recebidas?",
                     options: ["15 dias", "30 dias", "45 dias", "60 dias"],
-                    answer: 1
+                    answer: 1,
+                    explanation: "Conforme o Art. 26º, o prazo é de 30 dias corridos, prorrogável por mais 30 dias quando justificado."
                 },
                 {
                     question: "Qual método é utilizado para a classificação estratégica das denúncias?",
                     options: ["Método DIA", "Método JALECO", "Método PROSA", "Método SEI"],
-                    answer: 1
+                    answer: 1,
+                    explanation: "O Método JALECO é utilizado para classificação estratégica das denúncias, conforme descrito no Art. 15º."
                 },
                 {
                     question: "Qual das seguintes NÃO é uma atribuição da Ouvidoria-Geral do Cofen?",
                     options: ["Promover a integração entre as Ouvidorias Regionais", "Emitir relatórios analíticos à Presidência", "Realizar processos éticos", "Promover capacitação técnica das equipes"],
-                    answer: 2
+                    answer: 2,
+                    explanation: "Realizar processos éticos é competência das Comissões de Ética, não da Ouvidoria, conforme Art. 5º."
                 },
                 {
                     question: "Qual técnica NÃO é utilizada para preservar o sigilo do usuário?",
                     options: ["Tarjamento", "Descaracterização", "Digitalização", "Pseudonimização"],
-                    answer: 2
+                    answer: 2,
+                    explanation: "Digitalização não é uma técnica de preservação de sigilo. As técnicas corretas estão descritas no Art. 38º."
                 },
                 {
                     question: "Quantos anos no mínimo devem ser preservados os registros de denúncias?",
                     options: ["5 anos", "10 anos", "15 anos", "20 anos"],
-                    answer: 2
+                    answer: 2,
+                    explanation: "Conforme Art. 21º, parágrafo único, denúncias devem ter registros preservados por no mínimo 15 anos."
                 }
             ],
             2: [
                 {
                     question: "Qual artigo define as atribuições das Ouvidorias do Sistema Cofen/Conselhos Regionais de Enfermagem?",
                     options: ["Art. 2º", "Art. 5º", "Art. 6º", "Art. 9º"],
-                    answer: 2
+                    answer: 2,
+                    explanation: "O Art. 6º define as atribuições das Ouvidorias do Sistema Cofen/Conselhos Regionais."
                 },
                 {
                     question: "O que significa a letra 'E' no método JALECO?",
                     options: ["Eficiência", "Éticas", "Encaminhamento", "Exclusão"],
-                    answer: 1
+                    answer: 1,
+                    explanation: "No método JALECO, 'E' representa denúncias Éticas, conforme descrito no Art. 15º."
                 },
                 {
                     question: "Qual é o prazo para os setores administrativos analisarem e deliberarem sobre uma demanda encaminhada pela Ouvidoria?",
                     options: ["5 dias", "10 dias", "15 dias", "20 dias"],
-                    answer: 1
+                    answer: 1,
+                    explanation: "Conforme Art. 27º, §2º, o prazo é de 10 dias corridos para os setores administrativos."
                 },
                 {
                     question: "Qual status indica que uma manifestação foi enviada à área competente e está aguardando resposta?",
                     options: ["A DISTRIBUIR", "TRAMITANDO", "ENCAMINHADA", "RESPONDIDA"],
-                    answer: 2
+                    answer: 2,
+                    explanation: "O status 'ENCAMINHADA' é descrito no Art. 17º, III."
                 },
                 {
                     question: "Qual princípio NÃO deve ser observado no exercício das atribuições da Ouvidoria?",
                     options: ["Legalidade", "Impessoalidade", "Privilegio", "Transparência"],
-                    answer: 2
+                    answer: 2,
+                    explanation: "Privilégio não é um princípio da administração pública. Os princípios estão descritos no Art. 6º, IX."
                 }
             ],
             3: [
                 {
                     question: "Qual técnica de tratamento de dados substitui elementos identificadores por pseudônimos?",
                     options: ["Anonimização", "Pseudonimização", "Tarjamento", "Descaracterização"],
-                    answer: 1
+                    answer: 1,
+                    explanation: "Pseudonimização é a técnica descrita no Art. 1º, VII."
                 },
                 {
                     question: "Em caso de ausência do Ouvidor, quem pode substituí-lo?",
                     options: ["Qualquer funcionário", "Agente público qualificado e nomeado", "O Presidente do Conselho", "Ninguém, o cargo não pode ser substituído"],
-                    answer: 1
+                    answer: 1,
+                    explanation: "Conforme Art. 10º, §2º, o substituto deve ser agente público qualificado e nomeado."
                 },
                 {
                     question: "Qual é a primeira etapa do método DIA?",
                     options: ["Denúncias", "Informações", "Acompanhamento", "Distribuição"],
-                    answer: 0
+                    answer: 0,
+                    explanation: "A primeira etapa do método DIA é 'Denúncias', conforme Art. 15º."
                 },
                 {
                     question: "Quantos dias o usuário tem para complementar informações quando solicitado?",
                     options: ["5 dias", "10 dias", "15 dias", "20 dias"],
-                    answer: 1
+                    answer: 1,
+                    explanation: "Conforme Art. 29º, §2º, o usuário tem 10 dias para complementar informações."
                 },
                 {
                     question: "Qual documento estabelece os prazos para tratamento de manifestações?",
                     options: ["Lei nº 5.905/73", "Lei nº 12.527/2011", "Lei nº 13.460/2017", "Decreto nº 9.492/2018"],
-                    answer: 2
+                    answer: 2,
+                    explanation: "A Lei nº 13.460/2017 é a Lei de Proteção e Defesa dos Usuários de Serviços Públicos."
                 }
             ],
             4: [
                 {
                     question: "Qual é a subordinação hierárquica das Ouvidorias no Sistema Cofen/Conselhos?",
                     options: ["À Presidência da Autarquia", "À Corregedoria", "À Assessoria Jurídica", "À Diretoria Administrativa"],
-                    answer: 0
+                    answer: 0,
+                    explanation: "Conforme Art. 3º, as Ouvidorias devem estar diretamente subordinadas à Presidência."
                 },
                 {
                     question: "O que o método PROSA orienta?",
                     options: ["A classificação inicial das denúncias", "A análise técnica e os encaminhamentos", "A estrutura da jornada de atendimento", "A elaboração de relatórios"],
-                    answer: 1
+                    answer: 1,
+                    explanation: "O método PROSA orienta a análise técnica e encaminhamentos, conforme Art. 15º."
                 },
                 {
                     question: "Qual é o prazo máximo total (incluindo prorrogação) para resposta a uma manifestação?",
                     options: ["30 dias", "45 dias", "60 dias", "90 dias"],
-                    answer: 2
+                    answer: 2,
+                    explanation: "Conforme Art. 26º e 28º, o prazo total pode chegar a 60 dias (30 + prorrogação de 30)."
                 },
                 {
                     question: "O que acontece se o usuário não atender à solicitação de complementação de dados?",
                     options: ["O prazo é automaticamente prorrogado", "A manifestação é finalizada por insuficiência de elementos", "A Ouvidoria procede com a análise sem os dados", "O caso é encaminhado à Presidência"],
-                    answer: 1
+                    answer: 1,
+                    explanation: "Conforme Art. 29º, §3º, a manifestação é finalizada por insuficiência de elementos."
                 },
                 {
                     question: "Qual das seguintes NÃO é uma competência desejável para o cargo de Ouvidor?",
                     options: ["Habilidades de comunicação empática", "Conhecimento do Sistema Cofen/Conselhos", "Capacidade de análise crítica", "Experiência prévia como conselheiro"],
-                    answer: 3
+                    answer: 3,
+                    explanation: "Experiência como conselheiro não é listada como competência desejável no Art. 12º."
                 }
             ],
             5: [
                 {
                     question: "Qual anexo contém os status das manifestações e suas responsabilidades?",
                     options: ["Anexo I", "Anexo II", "Anexo III", "Nenhum dos anexos"],
-                    answer: 2
+                    answer: 2,
+                    explanation: "O Anexo III contém os status das manifestações e responsabilidades."
                 },
                 {
                     question: "Qual é a frequência mínima para elaboração de relatórios pela Ouvidoria?",
                     options: ["Mensal", "Bimestral", "Trimestral", "Semestral"],
-                    answer: 2
+                    answer: 2,
+                    explanation: "Conforme Art. 41º, os relatórios devem ser trimestrais."
                 },
                 {
                     question: "Em que casos a restrição de acesso à identidade do usuário NÃO se aplica?",
                     options: ["Denunciação caluniosa", "Flagrante má-fé", "Casos previstos pela LGPD", "Todas as alternativas anteriores"],
-                    answer: 3
+                    answer: 3,
+                    explanation: "Todas as situações listadas são exceções ao sigilo, conforme Art. 37º, parágrafo único."
                 },
                 {
                     question: "O que deve ser feito com uma manifestação que trata de matéria de competência de outro Conselho Regional?",
                     options: ["Arquivar a manifestação", "Encaminhar à Ouvidoria competente", "Responder informando o erro", "Encaminhar à Presidência do Cofen"],
-                    answer: 1
+                    answer: 1,
+                    explanation: "Conforme Art. 20º, deve-se encaminhar à Ouvidoria competente com ciência ao manifestante."
                 },
                 {
                     question: "Qual é o objetivo principal do Regimento Nacional das Ouvidorias?",
                     options: ["Padronizar a atuação das Ouvidorias", "Criar novas leis para o exercício da enfermagem", "Substituir o Código de Ética", "Estabelecer penalidades para os profissionais"],
-                    answer: 0
+                    answer: 0,
+                    explanation: "O objetivo principal é padronizar a atuação, conforme descrito no Anexo I."
                 }
             ]
         };
@@ -1371,13 +1494,29 @@
         let currentLevel = 1;
         let currentQuestion = 0;
         let score = 0;
+        let quizQuestions = [];
         
         const levelBtns = document.querySelectorAll('.level-btn');
         const questionContainer = document.getElementById('question-container');
-        const resultsContainer = document.getElementById('results-container');
-        const scoreElement = document.getElementById('score');
-        const progressBar = document.getElementById('progress-bar');
+        const quizResult = document.getElementById('quiz-result');
+        const resultPercent = document.getElementById('result-percent');
+        const resultCircle = document.getElementById('result-circle');
+        const resultFeedback = document.getElementById('result-feedback');
+        const resultStars = document.getElementById('result-stars');
         const restartBtn = document.getElementById('restart-btn');
+        const quizBtn = document.getElementById('quiz-btn');
+        const quizSection = document.getElementById('quiz-section');
+        
+        // Show quiz section when quiz button is clicked
+        quizBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            quizSection.style.display = 'block';
+            resetQuiz();
+            window.scrollTo({
+                top: quizSection.offsetTop - 20,
+                behavior: 'smooth'
+            });
+        });
         
         levelBtns.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -1391,13 +1530,21 @@
         function resetQuiz() {
             currentQuestion = 0;
             score = 0;
-            resultsContainer.classList.remove('active');
+            quizResult.style.display = 'none';
+            
+            // Randomize questions for the current level
+            quizQuestions = [...questions[currentLevel]];
+            for (let i = quizQuestions.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [quizQuestions[i], quizQuestions[j]] = [quizQuestions[j], quizQuestions[i]];
+            }
+            
             loadQuestion();
         }
         
         function loadQuestion() {
-            if (currentQuestion < questions[currentLevel].length) {
-                const q = questions[currentLevel][currentQuestion];
+            if (currentQuestion < quizQuestions.length) {
+                const q = quizQuestions[currentQuestion];
                 let optionsHtml = '';
                 
                 q.options.forEach((option, index) => {
@@ -1411,7 +1558,7 @@
                         <div class="question">${q.question}</div>
                         <div class="options">${optionsHtml}</div>
                         <div class="quiz-nav">
-                            <div>Pergunta ${currentQuestion + 1} de ${questions[currentLevel].length}</div>
+                            <div>Pergunta ${currentQuestion + 1} de ${quizQuestions.length}</div>
                         </div>
                     </div>
                 `;
@@ -1432,7 +1579,7 @@
                         
                         setTimeout(() => {
                             currentQuestion++;
-                            if (currentQuestion < questions[currentLevel].length) {
+                            if (currentQuestion < quizQuestions.length) {
                                 loadQuestion();
                             } else {
                                 showResults();
@@ -1446,12 +1593,43 @@
         }
         
         function showResults() {
-            const percentage = Math.round((score / questions[currentLevel].length) * 100);
-            scoreElement.textContent = `${percentage}%`;
-            progressBar.style.width = `${percentage}%`;
+            const percentage = Math.round((score / quizQuestions.length) * 100);
+            resultPercent.textContent = `${percentage}%`;
             
-            questionContainer.innerHTML = '';
-            resultsContainer.classList.add('active');
+            // Animate the circle
+            resultCircle.style.background = `conic-gradient(var(--correct-color) ${percentage}%, #e9ecef ${percentage}%)`;
+            
+            // Set feedback based on percentage
+            let feedback = "";
+            let stars = "";
+            
+            if (percentage >= 90) {
+                feedback = "Excelente! Você demonstrou domínio completo do conteúdo.";
+                stars = "★★★★★";
+            } else if (percentage >= 70) {
+                feedback = "Muito bom! Você tem um bom conhecimento do Regimento.";
+                stars = "★★★★☆";
+            } else if (percentage >= 50) {
+                feedback = "Bom! Continue estudando para melhorar seu desempenho.";
+                stars = "★★★☆☆";
+            } else if (percentage >= 30) {
+                feedback = "Você está no caminho certo. Revise os capítulos para melhorar.";
+                stars = "★★☆☆☆";
+            } else {
+                feedback = "Recomendamos revisar os capítulos do Regimento antes de tentar novamente.";
+                stars = "★☆☆☆☆";
+            }
+            
+            resultFeedback.textContent = feedback;
+            resultStars.textContent = stars;
+            
+            quizResult.style.display = 'block';
+            
+            // Scroll to results
+            window.scrollTo({
+                top: quizResult.offsetTop - 20,
+                behavior: 'smooth'
+            });
         }
         
         restartBtn.addEventListener('click', resetQuiz);
